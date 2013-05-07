@@ -1,4 +1,10 @@
 <?php
+/*
+ *  Function getTabLinks
+ *  $site : String - Page to crawl
+ *  $start : String - Link to begin all links
+ *  Return an array of page's links
+ */
 function getTabLinks($site, $start = "")
 {
   //On récupère le contenu HTML du lien
@@ -30,6 +36,11 @@ function getTabLinks($site, $start = "")
 	return $tab_links;
 }
 
+/*
+ *  Function crawler
+ *  $start : Link of first link to crawl
+ *  Return an array of all website's links (using getTabLinks)
+ */
 function crawler($start)
 {
 	$start = "http://micheledighoffer.fr/";
@@ -59,6 +70,12 @@ function crawler($start)
 	return $tablinks;
 }
 
+/*
+ *  Function outputCrawl
+ *  $tablinks : Array - Array return by crawler() function
+ *  $format : String - Format of output (only xml for now)
+ *  Print the result in $format
+ */
 function outputCrawl($tablinks, $format = "xml")
 {
 	if($format == "xml")
