@@ -20,7 +20,6 @@ while($newlien)
 			{
 				$newlien = true;
 				$premier[] = $lien;
-				echo true;
 			}
 		}
 	}
