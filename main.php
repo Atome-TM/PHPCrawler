@@ -1,28 +1,28 @@
 //Site à crawler
 require_once("functions.php");
 
-$racine = "http://www.thomasmoreira.fr";
+$start = "http://www.thomasmoreira.fr";
 
 //Création du tableau de départ
-$premier = getTabLinks($racine, $racine);
+$tablinks = getTabLinks($start, $start);
 
 //Boucle tant qu'au moins un nouveau lien a été trouvé, on rescanne le tableau
-$newlien = true;
-while($newlien)
+$hasNewLink = true;
+while($hasNewLink)
 {
-  $newlien = false;
-	foreach($premier as $link)
+  $hasNewLink = false;
+	foreach($tablinks as $link)
 	{
 		// On execute la fonction sur chaque lien du tableau et on verifie si chaque lien retourné existe deja ou non
-		foreach(getTabLinks($link, $racine) as $lien)
+		foreach(getTabLinks($link, $start) as $newlink)
 		{
-			if(!in_array($lien, $premier))
+			if(!in_array($newlink, $tablinks))
 			{
-				$newlien = true;
-				$premier[] = $lien;
+				$hasNewLink = true;
+				$tablinks[] = $newlink;
 			}
 		}
 	}
 }
-sort($premier); // Trie du tableau finale
-print_r($premier);
+sort($tablinks); // Trie du tableau finale
+print_r($tablinks);
