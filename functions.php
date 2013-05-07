@@ -1,3 +1,4 @@
+<?php
 function getTabLinks($site, $start = "")
 {
   //On récupère le contenu HTML du lien
@@ -28,3 +29,4 @@ function getTabLinks($site, $start = "")
 	$tab_links = array_unique($tab_links);
 	return $tab_links;
 }
+?>

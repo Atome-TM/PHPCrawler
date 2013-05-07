@@ -1,7 +1,8 @@
+<?php
 //Site à crawler
 require_once("functions.php");
 
-$start = "http://www.thomasmoreira.fr";
+$start = "http://micheledighoffer.fr/";
 
 //Création du tableau de départ
 $tablinks = getTabLinks($start, $start);
@@ -39,3 +40,4 @@ $output .="</urlset>";
 
 header('Content-Type: text/xml');
 echo $output;
+?>
