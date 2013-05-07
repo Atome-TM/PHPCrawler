@@ -26,3 +26,16 @@ while($hasNewLink)
 }
 sort($tablinks); // Trie du tableau finale
 print_r($tablinks);
+
+$output = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
+foreach($tablinks AS $link)
+{
+	$output .="<url>";
+	$output .= '<loc>'.$link.'</loc>';
+	$output .="</url>";
+}
+$output .="</urlset>";
+
+header('Content-Type: text/xml');
+echo $output;
