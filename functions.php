@@ -1,4 +1,4 @@
-function getTabLinks($site, $racine = "")
+function getTabLinks($site, $start = "")
 {
   //On récupère le contenu HTML du lien
 	$file = file_get_contents($site);
@@ -19,7 +19,7 @@ function getTabLinks($site, $racine = "")
 			else
 			{
 				if(strlen($matches[1][0]) > 0) {
-					$tab_links[] = $racine.$matches[1][0];
+					$tab_links[] = $start.$matches[1][0];
 				}
 			}
 		}
