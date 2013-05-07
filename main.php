@@ -2,42 +2,9 @@
 //Site à crawler
 require_once("functions.php");
 
-$start = "http://micheledighoffer.fr/";
+$website = "http://micheledighoffer.fr/"; // Website to crawl
 
-//Création du tableau de départ
-$tablinks = getTabLinks($start, $start);
+$outputTab = crawler($website); // Main function crawler
 
-//Boucle tant qu'au moins un nouveau lien a été trouvé, on rescanne le tableau
-$hasNewLink = true;
-while($hasNewLink)
-{
-  $hasNewLink = false;
-	foreach($tablinks as $link)
-	{
-		// On execute la fonction sur chaque lien du tableau et on verifie si chaque lien retourné existe deja ou non
-		foreach(getTabLinks($link, $start) as $newlink)
-		{
-			if(!in_array($newlink, $tablinks))
-			{
-				$hasNewLink = true;
-				$tablinks[] = $newlink;
-			}
-		}
-	}
-}
-sort($tablinks); // Trie du tableau finale
-print_r($tablinks);
-
-$output = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-
-foreach($tablinks AS $link)
-{
-	$output .="<url>";
-	$output .= '<loc>'.$link.'</loc>';
-	$output .="</url>";
-}
-$output .="</urlset>";
-
-header('Content-Type: text/xml');
-echo $output;
+outputCrawl($outputTab, "xml"); // Get and View XML sitemap
 ?>
