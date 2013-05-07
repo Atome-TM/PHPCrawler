@@ -13,7 +13,7 @@ function getTabLinks($site, $racine = "")
 			{
 				if(strpos($matches[1][0], $site) !== false)
 				{
-					$tab_links[] = $matches[1][0];
+					$tab_links[] = $matches[1]dsf[0];
 				}
 			}
 			else
