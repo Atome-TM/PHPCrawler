@@ -2,10 +2,10 @@
 /*
  *  Function getTabLinks
  *  $site : String - Page to crawl
- *  $start : String - Link to begin all links
+ *  $options : Array - Link to begin all links
  *  Return an array of page's links
  */
-function getTabLinks($site)
+function getTabLinks($site, $options = array())
 {
 	//On récupère le contenu HTML du lien
 	$file = file_get_contents($site);
@@ -41,10 +41,10 @@ function getTabLinks($site)
  *  $start : Link of first link to crawl
  *  Return an array of all website's links (using getTabLinks)
  */
-function crawler($start)
+function crawler($start, $options  = array())
 {
 	//Création du tableau de départ
-	$tablinks = getTabLinks($start);
+	$tablinks = getTabLinks($start, $options);
 
 	//Boucle tant qu'au moins un nouveau lien a été trouvé, on rescanne le tableau
 	$hasNewLink = true;
@@ -54,7 +54,7 @@ function crawler($start)
 		foreach($tablinks as $link)
 		{
 			// On execute la fonction sur chaque lien du tableau et on verifie si chaque lien retourné existe deja ou non
-			foreach(getTabLinks($link) as $newlink)
+			foreach(getTabLinks($link, $options) as $newlink)
 			{
 				if(!in_array($newlink, $tablinks))
 				{
