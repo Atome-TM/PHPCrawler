@@ -1,6 +1,6 @@
 <?php
 //Site à crawler
-require_once("functions.php");
+require_once("crawler.php");
 
 $website = "http://www.thomasmoreira.com/"; // Website to crawl
 
