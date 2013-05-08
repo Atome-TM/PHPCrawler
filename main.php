@@ -2,7 +2,7 @@
 //Site à crawler
 require_once("functions.php");
 
-$website = "http://micheledighoffer.fr/"; // Website to crawl
+$website = "http://www.thomasmoreira.com/"; // Website to crawl
 
 $outputTab = crawler($website); // Main function crawler
 

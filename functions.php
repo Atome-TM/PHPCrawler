@@ -5,9 +5,9 @@
  *  $start : String - Link to begin all links
  *  Return an array of page's links
  */
-function getTabLinks($site, $start = "")
+function getTabLinks($site)
 {
-  //On récupère le contenu HTML du lien
+	//On récupère le contenu HTML du lien
 	$file = file_get_contents($site);
 	$tab_links = array();
 	$where = 0;
@@ -26,7 +26,7 @@ function getTabLinks($site, $start = "")
 			else
 			{
 				if(strlen($matches[1][0]) > 0) {
-					$tab_links[] = $start.$matches[1][0];
+					$tab_links[] = $site.$matches[1][0];
 				}
 			}
 		}
@@ -43,10 +43,8 @@ function getTabLinks($site, $start = "")
  */
 function crawler($start)
 {
-	$start = "http://micheledighoffer.fr/";
-
 	//Création du tableau de départ
-	$tablinks = getTabLinks($start, $start);
+	$tablinks = getTabLinks($start);
 
 	//Boucle tant qu'au moins un nouveau lien a été trouvé, on rescanne le tableau
 	$hasNewLink = true;
@@ -56,7 +54,7 @@ function crawler($start)
 		foreach($tablinks as $link)
 		{
 			// On execute la fonction sur chaque lien du tableau et on verifie si chaque lien retourné existe deja ou non
-			foreach(getTabLinks($link, $start) as $newlink)
+			foreach(getTabLinks($link) as $newlink)
 			{
 				if(!in_array($newlink, $tablinks))
 				{
@@ -66,6 +64,7 @@ function crawler($start)
 			}
 		}
 	}
+	$tablinks[] = $start;
 	sort($tablinks); // Trie du tableau finale
 	return $tablinks;
 }
@@ -81,11 +80,13 @@ function outputCrawl($tablinks, $format = "xml")
 	if($format == "xml")
 	{
 		$output = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-		foreach($tablinks AS $link)
-		{
-			$output .="<url>";
-			$output .= '<loc>'.$link.'</loc>';
-			$output .="</url>";
+		if(count($tablinks) > 0) {
+			foreach($tablinks AS $link)
+			{
+				$output .="<url>";
+				$output .= '<loc>'.$link.'</loc>';
+				$output .="</url>";
+			}
 		}
 		$output .="</urlset>";
 
