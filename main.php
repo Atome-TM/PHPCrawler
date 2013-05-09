@@ -2,9 +2,9 @@
 //Site à crawler
 require_once("crawler.php");
 
-$website = "http://www.myclientisrich.com/"; // Website to crawl
+$website = "http://www.micheledighoffer.fr/"; // Website to crawl
 
-$outputTab = crawler($website); // Main function crawler
+$outputTab = getTabLinks($website); // Main function crawler
 
 outputCrawl($outputTab, "xml"); // Get and View XML sitemap
 ?>

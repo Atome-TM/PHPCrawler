@@ -5,32 +5,35 @@
  *  $options : Array - Link to begin all links
  *  Return an array of page's links
  */
-function getTabLinks($site, $options = array())
+function getTabLinks($site)
 {
 	//On récupère le contenu HTML du lien
 	$file = file_get_contents($site);
 	$tab_links = array();
-	$where = 0;
+
 	$pattern = '/href="(.*)"/U'; // Pattern de recherche d'un lien entourer par href=""
-	while(preg_match($pattern, substr($file, $where), $matches, PREG_OFFSET_CAPTURE))
+	$retour = preg_match_all($pattern, $file, $matches, PREG_PATTERN_ORDER);
+	
+	foreach($matches[1] as $key => $value)
 	{
-		if(!preg_match('/(\.js|javascript.*|\.jpg|\.png|.gif|\.css|#.*)$/', $matches[1][0])) //On ne recupère que les liens n'ayant pas d'extension
+		if(!preg_match('/(\.js|javascript.*|\.jpg|\.png|.gif|\.css|#.*)$/', $value)) //On ne recupère que les liens n'ayant pas d'extension
 		{
-			if(strpos($matches[1][0], "http://") !== false OR strpos($matches[1][0], "https://") !== false)
+			if(strpos($value, "http://") !== false OR strpos($value, "https://") !== false)
 			{
-				if(strpos($matches[1][0], $site) !== false)
+				if(strpos($value, $site) !== false)
 				{
-					$tab_links[] = $matches[1][0];
+					$tab_links[] = $value;
 				}
 			}
 			else
 			{
-				if(strlen($matches[1][0]) > 0) {
-					$tab_links[] = $site.$matches[1][0];
+				if(strlen($value) > 0)
+				{
+					$tab_links[] = $site.$value;
 				}
 			}
 		}
-		$where = $where + $matches[1][1];
+		//$where = $where + $matches[1][1];
 	}
 	$tab_links = array_unique($tab_links);
 	return $tab_links;
