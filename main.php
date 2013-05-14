@@ -4,7 +4,7 @@ require_once("crawler.php");
 
 $website = "http://www.micheledighoffer.fr/"; // Website to crawl
 
-$outputTab = getTabLinks($website); // Main function crawler
+$outputTab = new PHPCrawler($website); // Create a new class PHPCrawler
 
-outputCrawl($outputTab, "xml"); // Get and View XML sitemap
+$outputTab->outputCrawl(); // Get and Generate the XML sitemap
 ?>
