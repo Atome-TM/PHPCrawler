@@ -12,8 +12,9 @@ class PHPCrawler
 	{
 		$this->format = "xml";		// Default format : XML
 		$this->tab_links = array();	
-		$this->getTabLinks();
+		$this->tablinks = array();	
 		$this->site = $site;
+		$this->crawler();
 	}
 
 	/*
@@ -35,7 +36,7 @@ class PHPCrawler
 		
 		foreach($matches[1] as $key => $value)
 		{
-			if(!preg_match('/(\.js|javascript.*|\.jpg|\.png|.gif|\.css|#.*)$/', $value)) //On ne recupère que les liens n'ayant pas d'extension
+			if(!preg_match('/(\.js|mailto.*|javascript.*|\.jpg|\.png|\.gif|\.css|#.*)/', $value)) //On ne recupère que les liens n'ayant pas d'extension
 			{
 				if(strpos($value, "http://") !== false OR strpos($value, "https://") !== false)
 				{
@@ -46,7 +47,7 @@ class PHPCrawler
 				}
 				else
 				{
-					if(strlen($value) > 0)
+					if(strlen($value) > 1)
 					{
 						$this->tab_links[] = $this->site.$value;
 					}
@@ -54,19 +55,20 @@ class PHPCrawler
 			}
 			//$where = $where + $matches[1][1];
 		}
-		$this->tab_links = array_unique($tab_links);
+
+		$this->tab_links = array_unique($this->tab_links);
 		return $this->tab_links;
 	}
 
 	/*
 	 *  Function crawler
-	 *  $start : Link of first link to crawl
+	 *  $start : First link to crawl
 	 *  Return an array of all website's links (using getTabLinks)
 	 */
-	function crawler($start, $options  = array())
-	{
+	function crawler($options = array())
+	{	
 		//Création du tableau de départ
-		$this->tablinks = $this->getTabLinks($start, $options);
+		$this->tablinks = $this->getTabLinks($this->site);
 
 		//Boucle tant qu'au moins un nouveau lien a été trouvé, on rescanne le tableau
 		$hasNewLink = true;
@@ -76,7 +78,7 @@ class PHPCrawler
 			foreach($this->tablinks as $link)
 			{
 				// On execute la fonction sur chaque lien du tableau et on verifie si chaque lien retourné existe deja ou non
-				foreach($this->getTabLinks($link, $options) as $newlink)
+				foreach($this->getTabLinks($link) as $newlink)
 				{
 					if(!in_array($newlink, $this->tablinks))
 					{
@@ -86,7 +88,7 @@ class PHPCrawler
 				}
 			}
 		}
-		$this->tablinks[] = $start;
+		$this->tablinks[] = $this->site;
 		sort($this->tablinks); // Trie du tableau finale
 		return $this->tablinks;
 	}
@@ -103,7 +105,7 @@ class PHPCrawler
 		{
 			$this->output = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 			if(count($this->tablinks) > 0) {
-				foreach($this->tablinks AS $link)
+				foreach($this->tablinks as $link)
 				{
 					$this->output .="<url>";
 					$this->output .= '<loc>'.$link.'</loc>';
