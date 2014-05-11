@@ -108,26 +108,41 @@ class PHPCrawler
 	 *  $format : String - Format of output (only xml for now)
 	 *  Print the result in $format
 	 */
-	function outputCrawl($type = "I", $format = "xml")
+	function outputCrawl($format = "xml", $type = "I")
 	{
 
 		$this->setFormat($format);
 
 		if($this->format == "xml")
 		{
-			$this->output = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+			$this->output = "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n";
 			if(count($this->tablinks) > 0) {
 				foreach($this->tablinks as $link)
 				{
-					$this->output .="<url>";
-					$this->output .= '<loc>'.$link.'</loc>';
-					$this->output .="</url>";
+					$this->output .="\t<url>\n";
+					$this->output .= "\t\t<loc>".$link."</loc>\n";
+					$this->output .="\t</url>\n";
 				}
 			}
 			$this->output .="</urlset>";
 
-			header('Content-Type: text/xml');
-			echo $this->output;
+			if($type == "I") {
+				header('Content-Type: text/xml');
+				echo $this->output;
+			} else if ($type == "F") {
+
+
+
+				$file = fopen("sitemap.xml", "w+");
+				fwrite($file, $this->output);
+				fclose($file);
+
+				header("Location: /sitemap.xml");
+
+			}
+
+		} else if ($this->format == "array") {
+			return $this->tablinks;
 		}
 	}
 }
