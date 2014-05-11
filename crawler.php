@@ -36,7 +36,7 @@ class PHPCrawler
 		
 		foreach($matches[1] as $key => $value)
 		{
-			if(!preg_match('/(\.js|mailto.*|javascript.*|\.jpg|\.png|\.gif|\.css|#.*)/', $value)) //On ne recupère que les liens n'ayant pas d'extension
+			if(!preg_match('/(\.js|mailto.*|tel:*|javascript.*|\.jpg|\.png|\.gif|\.css|#.*)/', $value)) //On ne recupère que les liens n'ayant pas d'extension
 			{
 				if(strpos($value, "http://") !== false OR strpos($value, "https://") !== false)
 				{
