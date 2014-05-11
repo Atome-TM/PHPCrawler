@@ -17,6 +17,15 @@ class PHPCrawler
 		$this->crawler();
 	}
 
+
+	function setFormat($format) {
+		if(empty($format)) {
+			throw new Exception("Vous devez choisir un format ! (xml ou array)");
+			
+		}
+		$this->format = $format;
+	}
+
 	/*
 	 *  Function getTabLinks
 	 *  $site : String - Page to crawl
@@ -99,8 +108,11 @@ class PHPCrawler
 	 *  $format : String - Format of output (only xml for now)
 	 *  Print the result in $format
 	 */
-	function outputCrawl()
+	function outputCrawl($type = "I", $format = "xml")
 	{
+
+		$this->setFormat($format);
+
 		if($this->format == "xml")
 		{
 			$this->output = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
