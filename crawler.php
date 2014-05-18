@@ -20,7 +20,7 @@ class PHPCrawler
 
 	function setFormat($format) {
 		if(empty($format)) {
-			throw new Exception("Vous devez choisir un format ! (xml ou array)");
+			throw new Exception("You must choose a format! (xml ou array)");
 			
 		}
 		$this->format = $format;
@@ -40,12 +40,12 @@ class PHPCrawler
 		else
 			$file = file_get_contents($site);
 
-		$pattern = '/href="(.*)"/U'; // Pattern de recherche d'un lien entourer par href=""
+		$pattern = '/href="(.*)"/U'; // Pattern search for links surround by href = ""
 		$retour = preg_match_all($pattern, $file, $matches, PREG_PATTERN_ORDER);
 		
 		foreach($matches[1] as $key => $value)
 		{
-			if(!preg_match('/(\.js|mailto.*|tel:*|javascript.*|\.jpg|\.png|\.gif|\.css|#.*)/', $value)) //On ne recupère que les liens n'ayant pas d'extension
+			if(!preg_match('/(\.js|mailto.*|tel:*|javascript.*|\.jpg|\.png|\.gif|\.css|#.*)/', $value)) //Retireves only the links with no filetype extension - so will exclude scripts, images etc. 
 			{
 				if(strpos($value, "http://") !== false OR strpos($value, "https://") !== false)
 				{
@@ -76,17 +76,17 @@ class PHPCrawler
 	 */
 	function crawler($options = array())
 	{	
-		//Création du tableau de départ
+		//Create the table
 		$this->tablinks = $this->getTabLinks($this->site);
 
-		//Boucle tant qu'au moins un nouveau lien a été trouvé, on rescanne le tableau
+		//Loop through until a new link is found, then rescan the table
 		$hasNewLink = true;
 		while($hasNewLink)
 		{
 			$hasNewLink = false;
 			foreach($this->tablinks as $link)
 			{
-				// On execute la fonction sur chaque lien du tableau et on verifie si chaque lien retourné existe deja ou non
+				//Execute the function on each link of the table and check if each returned link already exists or not
 				foreach($this->getTabLinks($link) as $newlink)
 				{
 					if(!in_array($newlink, $this->tablinks))
@@ -98,7 +98,7 @@ class PHPCrawler
 			}
 		}
 		$this->tablinks[] = $this->site;
-		sort($this->tablinks); // Trie du tableau finale
+		sort($this->tablinks); // Sorts the final table.
 		return $this->tablinks;
 	}
 
