@@ -35,3 +35,13 @@ $website = "http://www.thomasmoreira.fr"; // Change this to your domain
 Add crawler.php and main.php to the root directory - then open main.php to run the crawler.
 
 The sitemap.xml will output to the root as normal, so you can access the sitemap with http://yoursitedomain.com/sitemap.xml and submit this to your chosen search engine.
+
+
+Licence GNU GPL
+======
+
+Pour savoir ce que vous pouvez faire ou pas avec mon outil, voici quelques liens à lire :
+
+- [Texte officiel (EN)](http://www.gnu.org/copyleft/gpl.html)
+- [Article WIkipedia](http://fr.wikipedia.org/wiki/Licence_publique_g%C3%A9n%C3%A9rale_GNU)
+- [Guide rapide de la GPLv3](http://www.gnu.org/licenses/quick-guide-gplv3.html)
