@@ -8,6 +8,26 @@ class PHPCrawler
 	private $site;			// Url of the racine
 	private $output;		// Content of output
 
+	private $_extensions = [  // Les extensions à ne pas suivre
+		'js',
+		'css',
+		'png',
+		'jpeg',
+		'jpg',
+		'gif',
+		'mp4',
+		'webm',
+		'mkv',
+		'ogg',
+		'wmv',
+		'mov',
+		'mp3',
+		'wav',
+		'wma',
+		'aac',
+		'flac'
+	];
+
 	function __construct($site)
 	{
 		$this->format = "xml";		// Default format : XML
@@ -45,7 +65,7 @@ class PHPCrawler
 		
 		foreach($matches[1] as $key => $value)
 		{
-			if(!preg_match('/(\.js|mailto.*|tel:*|javascript.*|\.jpg|\.png|\.gif|\.css|#.*)/', $value)) //Retireves only the links with no filetype extension - so will exclude scripts, images etc. 
+			if(!preg_match('/(mailto.*|tel:*|javascript.*|'.implode('|\.', $this->_extensions).'|#.*)/', $value)) //Retireves only the links with no filetype extension - so will exclude scripts, images etc.
 			{
 				if(strpos($value, "http://") !== false OR strpos($value, "https://") !== false)
 				{
